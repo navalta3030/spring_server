@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+        <changeSet id="1" author="sha">
+                <sql>
+                        DROP TABLE IF EXISTS "user";
+
+                        CREATE TABLE "user" (
+                                id        	SERIAL	 		NOT NULL,
+                                first_name 	VARCHAR(255) 	NOT NULL,
+                                last_name 	VARCHAR(255) 	NOT NULL,
+                                username 	VARCHAR(255) 	NOT NULL    UNIQUE,
+                                password 	VARCHAR(255) 	NOT NULL,
+                                email 		VARCHAR(255) 	NOT NULL	UNIQUE,
+                                role 		VARCHAR(255) 	NOT NULL,
+
+                                CONSTRAINT PK_id PRIMARY KEY (id)
+                        );
+                </sql>
+                <rollback>
+                        DROP table user;
+                </rollback>
+        </changeSet>
+
+        <changeSet id="2" author="sha">
+                <sql>
+                        INSERT INTO "user" (first_name, last_name, username, password, email, role)
+                        VALUES ('Mark', 'Navalta', 'marknavalta', 'password', 'marknavalta@gmail.com', 'admin');
+
+                        INSERT INTO "user" (first_name, last_name, username, password, email, role)
+                        VALUES ('dummy_first_name', 'dummy_last_name', 'dummy_username', 'dummy_password', 'dummy_email@gmail.com', 'user');
+                </sql>
+        </changeSet>
+</databaseChangeLog>
