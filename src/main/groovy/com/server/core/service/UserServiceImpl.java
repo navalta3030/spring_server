@@ -1,30 +1,33 @@
 package com.server.core.service;
 
-import com.server.core.dao.UserDAO;
 import com.server.core.model.User;
+import com.server.core.repository.UserDAO;
 import com.server.core.service.Interface.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Override
     public User saveUser(User user) {
-        user.setPassword(user.getPassword());
+        // Encrypt the password user bcrypt
+        String p = encoder.encode(user.getPassword());
+        user.setPassword(p);
 
         return userDAO.save(user);
     }
 
     @Override
-    public User updateUser(User user) {
-        return userDAO.save(user);
-    }
+    public User updateUser(User user) {return userDAO.save(user); }
 
     @Override
     public User deleteUser(Long userId) {
@@ -34,7 +37,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-
         return userDAO.findByUsername(username);
     }
 

@@ -13,6 +13,14 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
+
+
+    @Autowired
+    private UserService userService;
+
+    /**
+     * @TODO -
+     */
     @PutMapping("/user-update")
     public ResponseEntity<?> updateUser(@RequestBody User user) {
         User existUser = userService.findByUsername(user.getUsername());
@@ -21,7 +29,6 @@ public class AdminController {
         if (existUser != null && !existUser.getId().equals(user.getId())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-
 
         return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.CREATED);
     }
@@ -43,6 +50,4 @@ public class AdminController {
         return new ResponseEntity<Long>(userService.numberOfUsers(), HttpStatus.OK);
     }
 
-    @Autowired
-    private UserService userService;
 }

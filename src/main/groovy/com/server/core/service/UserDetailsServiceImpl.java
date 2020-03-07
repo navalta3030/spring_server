@@ -1,6 +1,6 @@
 package com.server.core.service;
 
-import com.server.core.dao.UserDAO;
+import com.server.core.repository.UserDAO;
 import com.server.core.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,8 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+
+/**
+ *  NOt sure if this one is still needed since we are going to incorporate JWT.
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired

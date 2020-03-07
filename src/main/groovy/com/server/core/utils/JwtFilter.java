@@ -26,12 +26,6 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
-//    @Autowired
-//    private UserDetailsService userDetailsService;
-//
-//    @Autowired
-//    private UserDetails userDetails;
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -47,18 +41,20 @@ public class JwtFilter extends OncePerRequestFilter {
             jwt = authorizationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
             role = jwtUtil.extractRole(jwt);
-            System.out.println(role);
         }
 
-
+        // Verify username and role are not empty
+        // Verify current Authentication is empty
         if (username != null && role != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-
+            // is JWT token valid?
             if (jwtUtil.validateToken(jwt)) {
 
+                // let's add if USER or ADMIN
                 List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
                 list.add(new SimpleGrantedAuthority("ROLE_" + role));
 
+                // Keep user authenticated.
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         username, null, list);
                 usernamePasswordAuthenticationToken
