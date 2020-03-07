@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-@RestController("/api/admin")
+@RestController
+@RequestMapping("/api/admin")
 public class AdminController {
     @PutMapping("/user-update")
     public ResponseEntity<?> updateUser(@RequestBody User user) {

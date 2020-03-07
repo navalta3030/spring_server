@@ -31,10 +31,10 @@
         <changeSet id="2" author="sha">
                 <sql>
                         INSERT INTO "user" (first_name, last_name, username, password, email, role)
-                        VALUES ('Mark', 'Navalta', 'marknavalta', 'password', 'marknavalta@gmail.com', 'admin');
+                        VALUES ('Mark', 'Navalta', 'marknavalta', 'password', 'marknavalta@gmail.com', 'ADMIN');
 
                         INSERT INTO "user" (first_name, last_name, username, password, email, role)
-                        VALUES ('dummy_first_name', 'dummy_last_name', 'dummy_username', 'dummy_password', 'dummy_email@gmail.com', 'user');
+                        VALUES ('dummy_first_name', 'dummy_last_name', 'dummy_username', 'dummy_password', 'dummy_email@gmail.com', 'USER');
                 </sql>
         </changeSet>
 </databaseChangeLog>
