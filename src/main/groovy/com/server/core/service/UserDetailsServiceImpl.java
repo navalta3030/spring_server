@@ -1,6 +1,6 @@
 package com.server.core.service;
 
-import com.server.core.repository.UserDAO;
+import com.server.core.repository.UserRepository;
 import com.server.core.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,11 +20,12 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    private UserDAO userDAO;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDAO.findByUsername(username);
+        User user = userRepository.findByUsername(username);
+        // create role for the specific person.
         List<GrantedAuthority> list = new ArrayList<>();
         list.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
 

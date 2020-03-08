@@ -12,6 +12,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/auth")
 public class UserController {
@@ -29,13 +31,17 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/registration")
-    public ResponseEntity<?> register(@RequestBody User user) {
+    public ResponseEntity<?> register(@RequestBody @Valid User user) {
 
         // verify if we have user in database
         if (userService.findByUsername(user.getUsername()) != null) {
-            return new ResponseEntity<Object>(HttpStatus.CONFLICT);
+            return new ResponseEntity<String>("Username already exist", HttpStatus.CONFLICT);
         }
 
+        // verify if we have user in database
+        if (userService.findByUsername(user.getEmail()) != null) {
+            return new ResponseEntity<String>("Email already exist", HttpStatus.CONFLICT);
+        }
 
         // default role
         user.setRole(Role.USER);

@@ -1,21 +1,32 @@
 package com.server.core.service;
 
 import com.server.core.model.User;
-import com.server.core.repository.UserDAO;
+import com.server.core.repository.UserRepository;
 import com.server.core.service.Interface.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    private UserDAO userDAO;
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder encoder;
+
+    @Override
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
     @Override
     public User saveUser(User user) {
@@ -23,31 +34,26 @@ public class UserServiceImpl implements UserService {
         String p = encoder.encode(user.getPassword());
         user.setPassword(p);
 
-        return userDAO.save(user);
+        return userRepository.save(user);
     }
 
     @Override
-    public User updateUser(User user) {return userDAO.save(user); }
+    public User updateUser(User user) {return userRepository.save(user); }
 
     @Override
     public User deleteUser(Long userId) {
-        userDAO.deleteById(userId);
+        userRepository.deleteById(userId);
         return null;
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userDAO.findByUsername(username);
-    }
-
-    @Override
-    public List<User> findAllUsers() {
-        return userDAO.findAll();
-    }
-
-    @Override
     public Long numberOfUsers() {
-        return userDAO.count();
+        return userRepository.count();
+    }
+
+    @Override
+    public List<User> saveAll(ArrayList<User> users) {
+        return userRepository.saveAll(users);
     }
 
 
